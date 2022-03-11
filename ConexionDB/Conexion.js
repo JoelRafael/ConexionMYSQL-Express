@@ -1,8 +1,11 @@
 "use strict"
+
+ const variable = require("./../config")
  const conf = require("./dbConf")
+ 
  const mysql = require("mysql"),
        dbOptions={
-           host:conf.mysql.host,
+           host:variable.HOST || "" ,
            port:conf.mysql.port,
            user:conf.mysql.user,
            password:conf.mysql.password,
