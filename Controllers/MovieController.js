@@ -1,12 +1,16 @@
 'use strict'
+//import {MessageHelpers} from "../Helpers/ReturnMessageHelper.js"
 const MessageHelpers = require ("../Helpers/ReturnMessageHelper.js")
 const MovieModel = require("./../Models/MovieModel")
- var MovieController = ()=>{};
+
+
+var MovieController = ()=>{};
 
       MovieController.getAll = (req, res, next)=>
       {
         MovieModel.getAll((err, rows)=>{
-            return err?next(new Error("No hay registro de peliculas")): res.status(200).json(MessageHelpers.MessageHttp(false, "", rows))
+            return err?next(new Error("No hay registro de peliculas"))
+                      :res.status(200).json(MessageHelpers.MessageHttp(false, "", rows))
         })
       }
       MovieController.insert = (req, res, next)=>
@@ -35,12 +39,15 @@ const MovieModel = require("./../Models/MovieModel")
             }
             MovieModel.update(req.params.movieid, json, (err, rows)=>{
                   return err?res.status(500).send(MessageHelpers.MessageHttp(true, "Hubo un problema con el servidor al actualizar el item", ""))
-                   :res.json(MessageHelpers.MessageHttp(false, "", "Item actualizado con exito"))
+                            :res.json(MessageHelpers.MessageHttp(false, "", "Item actualizado con exito"))
             })
       }
       MovieController.delete = (req, res, next)=>
       {
-
+        MovieModel.delete(req.params.movieid, (err, rows)=>{
+            return err?res.status(500).send(MessageHelpers.MessageHttp(true, "Hubo un problema con el servidor al eliminar el item", ""))
+                      :res.json(MessageHelpers.MessageHttp(false, "", "Item eliminado con exito"))
+        })
       }
 
 module.exports= MovieController;
